@@ -1,0 +1,15 @@
+# github gitignore template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Environment
+.env
+
+# Distribution / packaging
+bin/
+lib/
+
+# config files
+pyenv.cfg
+
+.DS_Store
