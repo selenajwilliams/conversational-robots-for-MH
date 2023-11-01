@@ -15,4 +15,4 @@ pyenv.cfg
 .DS_Store
 
 # secrets
-secrets/
+api_keys/
