@@ -15,6 +15,12 @@ openai.api_key = API_KEY
 ### for context, this query is 163 tokens toal -- 117 fr the prompt + 46 for completion
 
 
+""" initializes the LLM by letting it know that it is role playing a peer 
+support counselor
+
+returns: void. we discard the first response because this functio is just
+         to prime the LLM for user responses.
+"""
 def init_LLM():
     role_content = """
                     You are a peer support counselor that helps 
@@ -24,23 +30,57 @@ def init_LLM():
                     You are emotionally intelligent, non-judgemental, 
                     empathetic, and supportive.
                     """
-    user_response_1 = """
-                    I am okay. I've been struggling with stress and anxiety
-                    with school and some friend-group conflicts I'm afraid 
-                    to speak up about. 
-                    """
 
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": role_content},
         {"role": "assistant", "content": "How have you been?"},
-        {"role": "user", "content": user_response_1}
-    ]
+        ]
     )
 
+    LLM_response = completion.choices[0]['content'].message
+    return LLM_response
+
+    # note: message can be accessed at: 
+    # print(f"totla response is {completion}")
+    # print(f"message is {completion.choices[0]['content'].message}")
+
+""" sends user response to LLM and returns support response from the LLM
+    returns: support response from LLM
+
+"""
+def respond_to_user(user_response: str):
+    LLM_role_summary = "non-diagnosing, non-perscriptive, emotionally supportive peer support counselor"
+    completion = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": LLM_role_summary},
+        # seeing how well this performs w/out this to minimize tokens
+        # {"role": "assistant", "content": "How have you been?"}, 
+        {"role": "user", "content": user_response}
+        ]
+    )
+
+    LLM_response = parse_response(completion)
+    num_tokens = count_tokens(completion)
+
+    pass
+
+def parse_response(completion):
+    return completion.choices[0]['content'].message
+
+def count_tokens(completion):
+    tokens_used = completion.usage["total_tokens"]
+    return tokens_used
 
 
-# print(f"totla response is {completion}")
-# print(f"message is {completion.choices[0]['content'].message}")
+
+
+
+
+# def tokens_counter(num_tokens): # this is wrong, restart another time
+#     prev_tokens += num_tokens
+#     print(f'tokens used is now {num_tokens}')
+#     return prev_tokens
 
