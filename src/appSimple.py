@@ -11,8 +11,6 @@ from api_keys.API_KEY import API_KEY
 
 app = Flask(__name__)
 
-
-
 openai.api_key = API_KEY
 print(API_KEY)
 
