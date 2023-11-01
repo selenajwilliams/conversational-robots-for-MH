@@ -14,6 +14,7 @@ app = Flask(__name__)
 openai.api_key = API_KEY
 print(API_KEY)
 
+
 ### for context, this query is 163 tokens toal -- 117 fr the prompt + 46 for completion
 
 # role_content = """
