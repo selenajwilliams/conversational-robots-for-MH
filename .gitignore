@@ -13,3 +13,6 @@ lib/
 pyenv.cfg
 
 .DS_Store
+
+# secrets
+secrets/
