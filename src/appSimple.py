@@ -75,10 +75,6 @@ def count_tokens(completion):
     return tokens_used
 
 
-
-
-
-
 # def tokens_counter(num_tokens): # this is wrong, restart another time
 #     prev_tokens += num_tokens
 #     print(f'tokens used is now {num_tokens}')
