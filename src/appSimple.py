@@ -1,5 +1,5 @@
 import os
-import openai_handler
+# import openai_handler
 import openai
 from flask import Flask, redirect, render_template, request, url_for
 import os.path
@@ -39,7 +39,10 @@ def init_LLM():
         ]
     )
 
-    LLM_response = completion.choices[0]['content'].message
+    LLM_response = completion.choices[0].message["content"]
+    num_tokens = count_tokens(completion)
+    print(f"tokens used: \n{num_tokens}")
+    print(f"init LLM response which we discard: {LLM_response}")
     return LLM_response
 
     # note: message can be accessed at: 
@@ -51,7 +54,7 @@ def init_LLM():
 
 """
 def respond_to_user(user_response: str):
-    LLM_role_summary = "non-diagnosing, non-perscriptive, emotionally supportive peer support counselor"
+    LLM_role_summary = "non-diagnosing, non-perscriptive, emotionally supportive peer support counselor, responses 1 paragraph or less"
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
@@ -64,15 +67,33 @@ def respond_to_user(user_response: str):
 
     LLM_response = parse_response(completion)
     num_tokens = count_tokens(completion)
-
-    pass
+    print(f"LLM reponse: \n{LLM_response}")
+    print(f"tokens used {num_tokens}")
 
 def parse_response(completion):
-    return completion.choices[0]['content'].message
+    return completion.choices[0].message["content"]
 
 def count_tokens(completion):
     tokens_used = completion.usage["total_tokens"]
     return tokens_used
+
+def end_session(user_input):
+    if "end session" in user_input.lower():
+        return True
+    else:
+        return False
+
+if __name__ == "__main__":
+    print("running appSimply.py ... ")
+    init_LLM()
+    user_response_1 = "I am worried about my dad's health and the stress that is putting on my family and it's hard not being there with them."
+    respond_to_user(user_response_1)
+
+    if not end_session:
+        user_response = get_user_response()
+        respond_to_user(user_response) 
+
+
 
 
 # def tokens_counter(num_tokens): # this is wrong, restart another time
