@@ -89,27 +89,17 @@ def end_session(user_input):
     else:
         return False
 
-if __name__ == "__main__":
-    print("running appSimply.py ... ")
-    init_LLM()
-    user_response_1 = "I am worried about my dad's health and the stress that is putting on my family and it's hard not being there with them."
-    respond_to_user(user_response_1)
-
-    if not end_session:
-        user_response = get_user_response()
-        respond_to_user(user_response) 
 
 # this part below has to do with real time speech recognition & speech to text using the whisper API, 
 # which will enable the get_user_response function above
-
-
-def start_listening():
+def get_user_response():
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
     print("Listening for speech...")
 
     with microphone as source:
         try:
+            print("Start speaking!")
             recognizer.adjust_for_ambient_noise(source) # optional
             # save the audio data
             # params: 
@@ -123,12 +113,28 @@ def start_listening():
                 audio_file.write(audio.get_wav_data())
             
             # send audio file to whisper api to be transcribed
-            transcript = openai.Audio.transcribe("whisper-1", "user_speech.wav")
+            transcript = openai.Audio.transcribe("whisper-1", audio_file.read())
             print(f"\n***SPEECH TRANSCRIPTION***\n{transcript}")
+            return transcript
         
         except Exception as e:
             # if any exception occurs, print it to see what it is
-            print(e)
+            print(f"error encountered: {e}")
+
+
+if __name__ == "__main__":
+    print("running appSimply.py ... ")
+    # init_LLM() # commented out to save tokens for testing purposes, testing sr currently
+    # user_response_1 = "I am worried about my dad's health and the stress that is putting on my family and it's hard not being there with them."
+    user_response = get_user_response()
+    print(f"User response: \n{user_response}")
+
+    # respond_to_user(user_response) # this is where we send the wav file to the LLM
+    # respond_to_user(user_response_1)
+
+    # if not end_session:
+    #     user_response = get_user_response()
+    #     respond_to_user(user_response) 
 
 
 
