@@ -2,6 +2,12 @@ import os
 # import openai_handler
 import openai
 from flask import Flask, redirect, render_template, request, url_for
+
+# speech recongition related imports, will move this to a seperate file soon
+import pyaudio
+import speech_recognition as sr
+import wave
+
 import os.path
 import sys
 sys.path.append("..")
@@ -92,6 +98,47 @@ if __name__ == "__main__":
     if not end_session:
         user_response = get_user_response()
         respond_to_user(user_response) 
+
+# this part below has to do with real time speech recognition & speech to text using the whisper API, 
+# which will enable the get_user_response function above
+
+
+def start_listening():
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone()
+    print("Listening for speech...")
+
+    with microphone as source:
+        try:
+            recognizer.adjust_for_ambient_noise(source) # optional
+            # save the audio data
+            # params: 
+                # timeout: if no speech is detected within 10 seconds, sr will throw an error or not record
+                # phrase_time_limit: audio stops listening after speech is not detected for 3 seconds 
+                #                    (end of speech detection) ^
+            audio = recognizer.listen(source, timeout=10, phrase_time_limit=3)  # Listen for up to 3 seconds of speech
+            
+            # save audio to file 
+            with open("user_speech.wav", "wb") as audio_file:
+                audio_file.write(audio.get_wav_data())
+            
+            # send audio file to whisper api to be transcribed
+            transcript = openai.Audio.transcribe("whisper-1", "user_speech.wav")
+            print(f"\n***SPEECH TRANSCRIPTION***\n{transcript}")
+        
+        except Exception as e:
+            # if any exception occurs, print it to see what it is
+            print(e)
+
+
+
+
+
+
+
+
+
+
 
 
 
