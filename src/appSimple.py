@@ -20,7 +20,13 @@ openai.api_key = API_KEY
 
 ### for context, this query is 163 tokens toal -- 117 fr the prompt + 46 for completion
 
-
+""" Saves the conversation to a file
+"""
+def record(role: str, data: str):
+    with open("conversation.txt","a") as file:
+        formatted_data = f"{role.upper()}: \n {data}\n\n"
+        file.write(formatted_data)
+    
 """ initializes the LLM by letting it know that it is role playing a peer 
 support counselor
 
@@ -49,6 +55,7 @@ def init_LLM():
     num_tokens = count_tokens(completion)
     print(f"tokens used: \n{num_tokens}")
     print(f"init LLM response which we discard: {LLM_response}")
+    record("LLM", LLM_response)
     return LLM_response
 
     # note: message can be accessed at: 
@@ -76,6 +83,9 @@ def respond_to_user(user_response: str):
     print(f"LLM reponse: \n{LLM_response}")
     print(f"tokens used {num_tokens}")
 
+    record("LLM", LLM_response)
+    return LLM_response
+
 def parse_response(completion):
     return completion.choices[0].message["content"]
 
@@ -88,11 +98,30 @@ def end_session(user_input):
         return True
     else:
         return False
+    
 
+def get_user_response():
+    print("Getting user response...")
+    prev_user_input = "" # define prev_user_input to an empty string
+
+    # in a loop, continually read in the file called user_input.txt
+    # if what is in the file differs from what was in there previously,
+    # that means the user has said something new (the user has responded)
+    # and that response should be sent to the LLM as part of the conversation
+    while True:
+        with open('user_input.txt', 'r') as file:
+            user_input = file.read()
+
+        # if user input is new, send it to LLM & save it to file
+        if user_input != prev_user_input and user_input != "":
+            print(f"user input: {user_input} \n previous user input: {prev_user_input}")
+            record("USER", user_input)
+            respond_to_user(user_input) 
+            prev_user_input = user_input
 
 # this part below has to do with real time speech recognition & speech to text using the whisper API, 
 # which will enable the get_user_response function above
-def get_user_response():
+def get_user_response_speech_version():
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
     print("Listening for speech...")
@@ -112,6 +141,7 @@ def get_user_response():
             with open("user_speech.wav", "wb") as audio_file:
                 audio_file.write(audio.get_wav_data())
             
+            # TODO: error is happening on line 117
             # send audio file to whisper api to be transcribed
             transcript = openai.Audio.transcribe("whisper-1", audio_file.read())
             print(f"\n***SPEECH TRANSCRIPTION***\n{transcript}")
@@ -124,7 +154,13 @@ def get_user_response():
 
 if __name__ == "__main__":
     print("running appSimply.py ... ")
-    # init_LLM() # commented out to save tokens for testing purposes, testing sr currently
+
+    # clear what is currently in the conversation file
+    with open("conversation.txt", "w"):
+        pass
+
+    init_LLM() # commented out to save tokens for testing purposes, testing sr currently
+
     # user_response_1 = "I am worried about my dad's health and the stress that is putting on my family and it's hard not being there with them."
     user_response = get_user_response()
     print(f"User response: \n{user_response}")
