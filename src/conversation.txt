@@ -1,22 +1,3 @@
-LLM: 
- I'm sorry to hear that you're feeling that way. It's important to remember that seeking help is a sign of strength. I encourage you to reach out to a mental health professional who can provide you with the support and guidance you need.
-
 USER: 
- I am feeling sad today. I have been really up and down lately.
-
-LLM: 
- I'm sorry to hear that you're feeling sad today. It can be tough when emotions are fluctuating so much. Remember to give yourself some time and space to process your feelings. If you need someone to talk to or just want a listening ear, I'm here for you.
-
-USER: 
- I am sad that Spanky got hit by a car.
-
-
-LLM: 
- I'm so sorry to hear about Spanky. Losing a pet can be really tough, and it's normal to feel sad. It's okay to take some time to grieve and remember all the special moments you had with Spanky. If you need someone to talk to or share your feelings with, I'm here for you.
-
-USER: 
- It’s just not fair, you know?
-
-LLM: 
- I hear you. It can be really frustrating when things don't feel fair. It's okay to feel that way. If you want to vent or talk more about it, I'm here to listen.
+ He has been very sick and can't walk. He is getting older.
 

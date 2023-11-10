@@ -7,6 +7,7 @@ from flask import Flask, redirect, render_template, request, url_for
 import pyaudio
 import speech_recognition as sr
 import wave
+import random
 
 import os.path
 import sys
@@ -20,12 +21,18 @@ openai.api_key = API_KEY
 
 ### for context, this query is 163 tokens toal -- 117 fr the prompt + 46 for completion
 
-""" Saves the conversation to a file
+""" Saves the conversation to a file & returns a message that the messages array can add
+    to save conversation context
 """
-def record(role: str, data: str):
+def record(messages: list, role: str, data: str):
     with open("conversation.txt","a") as file:
         formatted_data = f"{role.upper()}: \n {data}\n\n"
         file.write(formatted_data)
+    
+    record = {"role": role, "content": data}
+    messages.append(record)
+
+    return messages
     
 """ initializes the LLM by letting it know that it is role playing a peer 
 support counselor
@@ -33,38 +40,49 @@ support counselor
 returns: void. we discard the first response because this functio is just
          to prime the LLM for user responses.
 """
-def init_LLM():
+def init_messages():
     role_content = """
-                    You are a peer support counselor that helps 
+                    You are a peer support counselor helping 
                     people with their mental health and wellbeing.
-                    As a peer support counselor you cannot perscribe or
-                    diagnose anything. Keep your responses brief.
+                    You cannot perscribe or diagnose anything. 
+                    Keep your responses brief (<3 sentences).
                     You are emotionally intelligent, non-judgemental, 
                     empathetic, and supportive.
                     """
-
-    completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
+    messages = [
         {"role": "system", "content": role_content},
         {"role": "assistant", "content": "How have you been?"},
         ]
-    )
 
-    LLM_response = completion.choices[0].message["content"]
-    num_tokens = count_tokens(completion)
-    print(f"tokens used: \n{num_tokens}")
-    print(f"init LLM response which we discard: {LLM_response}")
-    record("LLM", LLM_response)
-    return LLM_response
+    return messages
 
-    # note: message can be accessed at: 
-    # print(f"totla response is {completion}")
-    # print(f"message is {completion.choices[0]['content'].message}")
+""" Randomly picks a check in prompt to start the conversation with the user
+"""
+def init_conversation():
+    # define the LLM's role
+    role_content = """
+                You are a peer support counselor helping 
+                people with their mental health and wellbeing.
+                You cannot perscribe or diagnose anything. 
+                Keep your responses brief (<3 sentences).
+                You are emotionally intelligent, non-judgemental, 
+                empathetic, and supportive.
+                """
+
+    # randomly pick from a list of pre-set check in prompts
+    check_in_prompts = ["How are you?", "What's on your mind?", "How have you been feeling?", "How would you rate your stress levels?"]
+    conversation_starter = random.choice(check_in_prompts)
+
+    messages = [
+    {"role": "system", "content": role_content},
+    {"role": "assistant", "content": conversation_starter},
+    ]
+    print(f"messages is {messages}")
+
+    return messages
 
 """ sends user response to LLM and returns support response from the LLM
     returns: support response from LLM
-
 """
 def respond_to_user(user_response: str):
     LLM_role_summary = "non-diagnosing, non-perscriptive, emotionally supportive peer support counselor, responses 1 paragraph or less"
@@ -83,7 +101,7 @@ def respond_to_user(user_response: str):
     print(f"LLM reponse: \n{LLM_response}")
     print(f"tokens used {num_tokens}")
 
-    record("LLM", LLM_response)
+    record("assistant", LLM_response)
     return LLM_response
 
 def parse_response(completion):
@@ -108,16 +126,11 @@ def get_user_response():
     # if what is in the file differs from what was in there previously,
     # that means the user has said something new (the user has responded)
     # and that response should be sent to the LLM as part of the conversation
-    while True:
-        with open('user_input.txt', 'r') as file:
-            user_input = file.read()
+    with open('user_input.txt', 'r') as file:
+        user_input = file.read()
+    
+    return user_input
 
-        # if user input is new, send it to LLM & save it to file
-        if user_input != prev_user_input and user_input != "":
-            print(f"user input: {user_input} \n previous user input: {prev_user_input}")
-            record("USER", user_input)
-            respond_to_user(user_input) 
-            prev_user_input = user_input
 
 # this part below has to do with real time speech recognition & speech to text using the whisper API, 
 # which will enable the get_user_response function above
@@ -151,6 +164,12 @@ def get_user_response_speech_version():
             # if any exception occurs, print it to see what it is
             print(f"error encountered: {e}")
 
+def end_session(user_input: str):
+    if "end session" in user_input.lower():
+        return True
+    else:
+        return False
+
 
 if __name__ == "__main__":
     print("running appSimply.py ... ")
@@ -159,18 +178,31 @@ if __name__ == "__main__":
     with open("conversation.txt", "w"):
         pass
 
-    init_LLM() # commented out to save tokens for testing purposes, testing sr currently
+    curr_messages = init_conversation()
 
-    # user_response_1 = "I am worried about my dad's health and the stress that is putting on my family and it's hard not being there with them."
-    user_response = get_user_response()
+    user_input = get_user_response()
+
+
+    prev_user_input = ""
+
+    # while the session is still in progress
+    while not end_session(user_input): 
+        # if user input is new, send it to LLM & save it to file
+        if user_input != prev_user_input and user_input != "":
+            print(f"user input: {user_input} \n previous user input: {prev_user_input}")
+            messages, user_response = record(messages=curr_messages, role="USER", data=user_input)
+            respond_to_user(messages) 
+            prev_user_input = user_input
+
     print(f"User response: \n{user_response}")
-
-    # respond_to_user(user_response) # this is where we send the wav file to the LLM
+    # respond_to_user(user_response) # this is where we send the wav file to the LLM # not sure if I still need this?
     # respond_to_user(user_response_1)
 
     # if not end_session:
     #     user_response = get_user_response()
     #     respond_to_user(user_response) 
+
+
 
 
 
