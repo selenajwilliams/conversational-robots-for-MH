@@ -1,3 +1,8 @@
+""" FULL MEMORY VERSION
+    This version of the system works by saving the full conversation and 
+    sending that to the API every time.
+"""
+
 # imports
 import os
 import openai
@@ -97,7 +102,6 @@ if __name__ == "__main__":
     prev_user_input = ""
     counter = 0
      
-
     while not end_session(user_input):
 
         # continually get user input

@@ -22,7 +22,7 @@ def init_role_content():
     role_content = "You're a peer support counselor."
     return role_content
 
-def formatt_msg(role: str, content: str):
+def format_msg(role: str, content: str):
     return {"role": role, "content": content}
 
 def ask_check_in_prompt():
@@ -68,17 +68,33 @@ def get_LLM_response(messages: list):
 
     return LLM_response
 
-# aggregates what the user has said so far
+# aggregates what the user has said so far by going through the messages
 # queries API to summarize it
 # returns summarized version
 def summarize(role: str):
     # step 1: parse messages to extract responses based on the role
     raw_responses = ' '.join(message['content'] for message in messages if message['role'] == role)
     print(raw_responses)
-    
 
+    # query the api where messages includes instructions to summarize &
+    # the raw responses
+    api_query = []
+    role_content = "Summarize this concisely in 1 sentence"
+    formatted_role_content = {"role": "system", "content": role_content}
+    formatted_raw_responses = {"role": role, "content": raw_responses}
+    api_query.append(formatted_role_content)
+    api_query.append(formatted_raw_responses)
+
+    # send to API
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=api_query
+        )
     
-    pass
+    # parse the LLM response
+    summary = completion.choices[0].message["content"]
+    
+    return summary
 
 
 
@@ -94,13 +110,13 @@ if __name__ == "__main__":
 
     # get the role content
     # save to messages array
-    formatted_role_content = formatt_msg(role="system", content=init_role_content())
+    formatted_role_content = format_msg(role="system", content=init_role_content())
     messages.append(formatted_role_content)
 
     # get the check in prompt 
     # save to messages array, write to out file, save to conversation
     check_in_prompt = ask_check_in_prompt()
-    formatted_check_in_prompt = formatt_msg(role="assistant", content=check_in_prompt)
+    formatted_check_in_prompt = format_msg(role="assistant", content=check_in_prompt)
     messages.append(formatted_check_in_prompt)
     messages_summary.append(formatted_check_in_prompt)
     write_out(check_in_prompt)
@@ -122,7 +138,7 @@ if __name__ == "__main__":
         if user_input != prev_user_input and user_input != "":
             counter += 1
             # save to messages array, add to conversation file
-            formatted_user_input = formatt_msg(role="user", content=user_input)
+            formatted_user_input = format_msg(role="user", content=user_input)
             messages.append(formatted_user_input)
             save_to_conversation_file(role="user", content=user_input)
             print(f"Role: user\n Content:{user_input}")
@@ -132,17 +148,18 @@ if __name__ == "__main__":
 
             # write to LLM_response.txt, save to messages array, add to conversation file
             write_out(LLM_response)
-            formatted_LLM_response = formatt_msg(role="assistant", content=LLM_response)
+            formatted_LLM_response = format_msg(role="assistant", content=LLM_response)
             messages.append(formatted_LLM_response)
             save_to_conversation_file(role="assistant", content=LLM_response)
             print(f"Role: assistant\n Content: {LLM_response}")
 
             # check if it's time to summarize
             # every 5th user input, summarize
-            if (counter % 5) is 0:
-                user_summary = 
-
-                pass
+            if (counter % 2) is 0:
+                user_summary = summarize("user")
+                LLM_summary = summarize("assistant")
+                print(f"*** USER SUMMARY: *** \n{user_summary}")
+                print(f"*** LLM SUMMARY: *** \n{LLM_summary}")
 
 
             print(f"prev_user_input was: {prev_user_input}")
