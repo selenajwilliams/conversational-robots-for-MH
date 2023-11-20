@@ -1,35 +1,27 @@
-SYSTEM: 
-You are a non-diagnosing peer support counselor that 
-        helps people with their mental health. Keep your responses less 
-        than 1 sentence.
-
 ASSISTANT: 
-Have you been stressed lately?
+How are you?
 
 USER: 
-I'm sad
+I'd like to talk about some family challenges and how to manage my stress at work.
 
 ASSISTANT: 
-I'm sorry to hear that, what has been making you feel sad?
+I'm here to listen and support you. Family challenges and work-related stress can be difficult to navigate. What specifically would you like to discuss about your family challenges? And how has work been impacting your stress levels?
 
 USER: 
-I'm upset
+So I'm being pressured to perform academically. Whenever my dad tells me how happy he is with my school, I feel worried that if I don't perform I will let him down.
+
 
 ASSISTANT: 
-I'm here to listen, what has been bothering you?
+It's understandable that feeling pressured to perform academically can be overwhelming and create a lot of stress. It's important to remember that your worth as a person is not solely determined by your academic achievements. Are these expectations coming solely from your dad, or are they coming from other family members as well? It might be helpful to have an open and honest conversation with your dad about how you're feeling and express your concerns. Let him know that you are doing your best, and that you'd appreciate his support and understanding rather than additional pressure. It's important to set realistic expectations and to focus on personal growth and learning rather than solely on grades.
+
+USER: 
+What if he doesn't accept me for who I am outside of my achievements?
+
+ASSISTANT: 
+It can be difficult when you feel like your parents' acceptance is solely based on your achievements. Remember that you are more than your grades or academic performance. You have other qualities, interests, and talents that make you unique and deserving of acceptance. It's important to remind yourself of your worth and to surround yourself with people who appreciate and support you for who you are. If having a conversation with your dad about your concerns doesn't yield the desired results, consider seeking support from other family members, friends, or even a counselor who can help you navigate these feelings and work towards finding a sense of self-acceptance. Remember, you are valuable and deserving of love and acceptance, regardless of your academic achievements.
 
 USER: 
 end session
 
 ASSISTANT: 
-I'm here if you change your mind. Take care.
-
-LLM: 
- How are you?
-
-USER: 
- end session
-
-LLM: 
- Okay, feel free to reach out if you need support in the future. Take care!
-
+I'm here for you whenever you need to talk. Take care of yourself, and remember that you are not alone.

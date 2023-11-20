@@ -126,6 +126,8 @@ if __name__ == "__main__":
 
             messages.append(input_record)
 
+            print(f"messages is: {messages}")
+
             respond_to_user(messages)
 
             prev_user_input = user_input
