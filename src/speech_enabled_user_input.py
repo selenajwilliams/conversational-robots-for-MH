@@ -11,9 +11,15 @@
     If so, it is processed from there.
 
     BUGS:
-    I have a bug with this being sent to the whisper api - something in
-    the syntax isn't right. For this function to work that will need to
-    be fixed.
+    I haven't found a smooth way to terminate listening shortly after
+    the user stops speaking. I am currently going w/ option a, but 
+    possible solutions are:
+        a. have a set amount of time the recognizer listens for (e.g. terminate after 3 s no matter what)
+        b. don't have any parameter and just terminate naturally (~2-3 s wait after user finishes speaking)
+        c. get complex and have a second listener in a while loop that checks ever 2 seconds to see if there's 
+           speech. If there isn't, catch the WaitTimeOutError that will be thrown and use that to do the rest
+           of your logic, treating the error occurence as the desired situation where the user has not 
+           spoken for 2 seconds and you want to process their (finished) speech. 
 
     TO USE:
     Swap this out with the get_user_response() function in app.py and
@@ -58,7 +64,7 @@ def get_user_response():
             audio = recognizer.listen(source, timeout=10, phrase_time_limit=3)  # Listen for up to 3 seconds of speech
             # audio = recognizer.listen(source, timeout=5)  # no limit on how long someone can talk for, but slower response time because it waits longer before terminating
 
-            
+        
             # save audio to file 
             with open("user_speech.wav", "wb") as audio_file:
                 audio_file.write(audio.get_wav_data())
