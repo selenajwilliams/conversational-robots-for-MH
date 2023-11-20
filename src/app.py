@@ -48,11 +48,47 @@ def save_to_conversation_file(role: str, content: str):
         file.write(formatted_data)
 
 # reads user input file to get user input
-def get_user_response():
-    with open('user_input.txt', 'r') as file:
-        user_input = file.read()
+# def get_user_response():
+#     with open('user_input.txt', 'r') as file:
+#         user_input = file.read()
     
-    return user_input
+#     return user_input
+
+
+# this part below has to do with real time speech recognition & speech to text using the whisper API, 
+# which will enable the get_user_response function above
+def get_user_response():
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone()
+    print("Listening for speech...")
+
+    with microphone as source:
+        try:
+            print("Start speaking!")
+            recognizer.adjust_for_ambient_noise(source) # optional
+            # save the audio data
+            # params: 
+                # timeout: if no speech is detected within 10 seconds, sr will throw an error or not record
+                # phrase_time_limit: audio stops listening after speech is not detected for 3 seconds 
+                #                    (end of speech detection) ^
+            audio = recognizer.listen(source, timeout=10, phrase_time_limit=3)  # Listen for up to 3 seconds of speech
+            
+            # save audio to file 
+            with open("user_speech.wav", "wb") as audio_file:
+                audio_file.write(audio.get_wav_data())
+
+            # audio_file = open("user_speech.wav", "rb")
+
+            # send audio file to whisper api to be transcribed
+            # transcript = openai.OpenAI.audio.transcriptions.create(model="whisper-1", file=audio_file, response_format="text")
+            
+            transcript = openai.Audio.transcribe("whisper-1", audio_file.read())
+            print(f"\n***SPEECH TRANSCRIPTION***\n{transcript}")
+            return transcript
+        
+        except Exception as e:
+            # if any exception occurs, print it to see what it is
+            print(f"error encountered: {e}")
 
 # takes in messages array with user response, returns LLM response based on
 # conversation thus far
@@ -134,8 +170,10 @@ if __name__ == "__main__":
         # continually get user input
         user_input = get_user_response()
 
+        print(f"******************USER INPUT IS: {user_input}")
+
         # if the user input is new
-        if user_input != prev_user_input and user_input != "":
+        if user_input != prev_user_input and user_input != "" and user_input is not None:
             counter += 1
             # save to messages array, add to conversation file
             formatted_user_input = format_msg(role="user", content=user_input)
@@ -155,7 +193,7 @@ if __name__ == "__main__":
 
             # check if it's time to summarize
             # every 5th user input, summarize
-            if (counter % 2) is 0:
+            if (counter % 2) is 0 and counter is not 0:
                 user_summary = summarize("user")
                 LLM_summary = summarize("assistant")
                 print(f"*** USER SUMMARY: *** \n{user_summary}")

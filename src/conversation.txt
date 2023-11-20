@@ -1,25 +1,3 @@
 ASSISTANT: 
-Have you been stressed lately?
-
-USER: 
-I'm sad
-
-ASSISTANT: 
-I'm sorry to hear that you're feeling sad. It's completely normal to experience sadness at times, but if it's affecting your daily life, it's important to address it. Would you like to talk about what might be causing your sadness or anything specific that's been on your mind? Remember, I'm here to listen and offer support.
-
-USER: 
-My dog died.
-
-ASSISTANT: 
-I'm really sorry to hear about the loss of your dog. Losing a pet can be a deeply emotional experience, and it's completely understandable to feel sad during this time. Losing a companion can feel like losing a part of our family. Remember that it's okay to grieve and take the time you need to heal.
-
-If you're comfortable, you could share some memories or stories about your dog. Talking about the good times you had together can help keep their memory alive. Additionally, it might be helpful to find a way to honor your dog's memory, such as creating a scrapbook or planting a tree in their name.
-
-It's also important to take care of yourself as you grieve. Reach out to friends or family for support, or consider seeking professional help if you find it difficult to cope with this loss. Remember that it's okay to feel sad, and with time, the pain will lessen.
-
-USER: 
-end session
-
-ASSISTANT: 
-I understand, and I'm here for you whenever you need someone to talk to. Remember, grieving takes time, and I hope you find comfort and healing during this difficult period. Don't hesitate to reach out if you need additional support or assistance. Take care of yourself. Goodbye.
+How are you?
 
