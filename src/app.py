@@ -95,6 +95,8 @@ def summarize(role: str):
     
     return summary
 
+def extract_emotion(user_input: str):
+    pass
 
 
 if __name__ == "__main__":
