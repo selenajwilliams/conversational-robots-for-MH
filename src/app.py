@@ -19,7 +19,7 @@ def get_role_content():
     # role_content = """You are a non-diagnosing peer support counselor that 
     # helps people with their mental health. Keep your responses less 
     # than 1 sentence."""
-    role_content = "You're a peer support counselor."
+    role_content = "You're a peer support counselor. Keep all reponses <1 sentence."
     return role_content
 
 def format_msg(role: str, content: str):
@@ -74,7 +74,6 @@ def get_LLM_response(messages: list):
 def summarize(role: str):
     # step 1: parse messages to extract responses based on the role
     raw_responses = ' '.join(message['content'] for message in messages_full_log if message['role'] == role)
-    print(raw_responses)
 
     # query the api where messages includes instructions to summarize &
     # the raw responses
@@ -122,7 +121,7 @@ if __name__ == "__main__":
     working_messages.append(formatted_check_in_prompt)
     write_out(check_in_prompt)
     save_to_conversation_file(role="assistant", content=check_in_prompt)
-    print(f"Role: assistant\n Content: {check_in_prompt}")
+    # print(f"Role: assistant\n Content: {check_in_prompt}")
 
     # initialize user input
     user_input = ""
@@ -134,8 +133,6 @@ if __name__ == "__main__":
         # continually get user input
         user_input = get_user_response()
 
-        print(f"******************USER INPUT IS: {user_input}")
-
         # if the user input is new
         if user_input != prev_user_input and user_input != "" and user_input is not None:
             counter += 1
@@ -144,7 +141,7 @@ if __name__ == "__main__":
             messages_full_log.append(formatted_user_input)
             working_messages.append(formatted_user_input)
             save_to_conversation_file(role="user", content=user_input)
-            print(f"Role: user\n Content:{user_input}")
+            # print(f"Role: user\n Content:{user_input}")
 
             # send user response to LLM, get LLM response
             LLM_response = get_LLM_response(messages=messages_full_log)
@@ -155,11 +152,11 @@ if __name__ == "__main__":
             messages_full_log.append(formatted_LLM_response)
             working_messages.append(formatted_LLM_response)
             save_to_conversation_file(role="assistant", content=LLM_response)
-            print(f"Role: assistant\n Content: {LLM_response}")
+            # print(f"Role: assistant\nContent: {LLM_response}")
 
             # check if it's time to summarize
             # every 5th user input, summarize
-            if (counter % 2) is 0 and counter is not 0:
+            if (counter % 5) == 0 and counter != 0:
                 user_summary = summarize("user")
                 LLM_summary = summarize("assistant")
                 messages_summary = []
@@ -170,13 +167,17 @@ if __name__ == "__main__":
                 messages_summary.append(formatted_role_content)
                 messages_summary.append(formatted_user_summary)
                 messages_summary.append(formatted_LLM_summary)
+
+                print(f"\n*** Messages Summary ***\nUser Summary: \n{user_summary}\n LLM_summary: \n{LLM_summary}")
                 
                 working_messages = messages_summary # reset working messages to be the summary 
 
                 # print(f"*** USER SUMMARY: *** \n{user_summary}")
                 # print(f"*** LLM SUMMARY: *** \n{LLM_summary}")
 
-
+            print(f"\*** Working Messages: ***")
+            [print(x) for x in working_messages if x.get("role") != "role_content"]
+            
             # print(f"prev_user_input was: {prev_user_input}")
             prev_user_input = user_input
             # print(f"prev user input is now: {prev_user_input}")
