@@ -58,6 +58,7 @@ def get_user_response():
 # conversation thus far
 def get_LLM_response(messages: list):
     # query the LLM
+    # TODO: add frequency_penalty to discourage repetition 
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages
@@ -95,8 +96,27 @@ def summarize(role: str):
     
     return summary
 
+# inspired by: https://medium.com/muthoni-wanyoike/sentiment-analysis-with-openai-api-a-practical-tutorial-afbe49aef1dd
 def extract_emotion(user_input: str):
-    pass
+    api_query = []
+    system_instruction = "You are a sentiment analysis model to analyze the emotion a user conveys in a conversation with a peer support counselor. Analyze the text from the user and respond with a one-word emotion describing the tone of what they enter."
+    role_conent = {"role": "system", "content": system_instruction}
+    instruction = {"role": "user", "content": user_input}
+
+    api_query.append(role_conent)
+    api_query.append(instruction)
+
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=api_query,
+        max_tokens=4
+        )
+    
+    print(completion)
+    
+    sentiment = completion.choices[0].message["content"]
+
+    return sentiment
 
 
 if __name__ == "__main__":
@@ -146,7 +166,7 @@ if __name__ == "__main__":
             # print(f"Role: user\n Content:{user_input}")
 
             # send user response to LLM, get LLM response
-            LLM_response = get_LLM_response(messages=messages_full_log)
+            LLM_response = get_LLM_response(messages=working_messages)
 
             # write to LLM_response.txt, save to messages array, add to conversation file
             write_out(LLM_response) # write out LLM response first since we want to get it to user asap
