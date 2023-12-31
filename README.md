@@ -1,6 +1,15 @@
-# conversational-robots-for-MH
+# AI-Driven Robot Peer Support Counselor
 
 Spring '23 Research Project in Brown's Humans to Robots Lab
+
+## Overview
+
+This novel, experimental system leverages the latest in AI, embedded systems, and robotics to create an embodied mental health supportive experience for users. Since therapy mental health resources can often be expensive and inaccessible, I wanted to test the effects of a robot peer support counselor on user mental health, as a cheaper and more accessible compliment to existing mental health services. 
+
+Medical and Data Disclaimer:
+Please note: This system is experimental, does not give licensed medical advice, and anything it says may be false. It does not have the ability to diagnose, perscribe, or do anything that a licensed MH practioner can do, but may show promise as a peer support counselor employing CBT principles in conversations with users. It is an experimental system -- please use at your own risk with the awareness that it is not medical advice in any way.  
+
+Additionally, this system sends user responses the OpenAI API to generate responses, so user data is used in that way.  
 
 ## Problem Space
 
@@ -23,10 +32,10 @@ So far, little research has been done to measure the potential that LLMs and rob
 
 Goals:
 
-- Conduct qualitative pilot studies with lab by end of semester
-- Conduct quantiative studies with participants next semester
+- Conduct pilot studies with lab by end of spring 2024 semester
+- Conduct official user study and publish research paper by end of participants fall 2024 semester
 
-User Study Outline For Quantiative Study Spring 2024:
+User Study Outline For Quantiative Fall Spring 2024:
 Have users fill out a standard, clinical wellbeing/emotion assessment and NARS (Negative Attitudes towards Robots Survey) before and after interacting with the system
 Have 3 non-clinical interventions that users are randomly allocated to: embodied LLM system (this system in Kuri), digital LLM system (this system accessible through a webapp), and a low-tech wellbeing activity like journaling (possibly synced with similar prompts that all systems can ask)
 Have all users fill out the assessments noted above before & after and measure outcomes to see which system most helps users with their emotional and overall wellbeing
