@@ -17,7 +17,7 @@ Mental health has been declared an unprecedented national crisis amidst a severe
 
 So far, little research has been done to measure the potential that LLMs and robots can have to support mental health in complement to traditional therapy and MH services. Given the national shortage of providers, growing burden of national mental health, and promise of these technologies in other spaces, this project explores the impact that an LLM-equipped home robot (Kuri) can play in supporting user emotional wellbeing by role-playing as a peer support counselor.
 
-## Opportunties to Improve LLM Performance:
+## Opportunties to Improve System Performance:
 
 1. Introduce model finetuning
    article:
