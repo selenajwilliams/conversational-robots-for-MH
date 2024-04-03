@@ -1,6 +1,8 @@
 # imports
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=API_KEY)
 from flask import Flask, redirect, render_template, request, url_for
 # speech recongition related imports, will move this to a seperate file soon
 import pyaudio
@@ -13,7 +15,6 @@ sys.path.append("..")
 sys.path.append("secrets")
 from api_keys.OPENAI_API_KEY import API_KEY
 app = Flask(__name__)
-openai.api_key = API_KEY
 
 def get_role_content():
     # role_content = """You are a non-diagnosing peer support counselor that 
@@ -59,13 +60,11 @@ def get_user_response():
 def get_LLM_response(messages: list):
     # query the LLM
     # TODO: add frequency_penalty to discourage repetition 
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=messages)
     
     # parse the LLM response
-    LLM_response = completion.choices[0].message["content"]
+    LLM_response = completion.choices[0].message.content
 
     return LLM_response
 
@@ -86,13 +85,11 @@ def summarize(role: str):
     api_query.append(formatted_raw_responses)
 
     # send to API
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=api_query
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=api_query)
     
     # parse the LLM response
-    summary = completion.choices[0].message["content"]
+    summary = completion.choices[0].message.content
     
     return summary
 
@@ -106,15 +103,13 @@ def extract_emotion(user_input: str):
     api_query.append(role_conent)
     api_query.append(instruction)
 
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=api_query,
-        max_tokens=4
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=api_query,
+    max_tokens=4)
     
     print(completion)
     
-    sentiment = completion.choices[0].message["content"]
+    sentiment = completion.choices[0].message.content
 
     return sentiment
 

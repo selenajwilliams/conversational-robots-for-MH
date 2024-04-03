@@ -1,13 +1,14 @@
 import os
 import openai_handler
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from flask import Flask, redirect, render_template, request, url_for
 # import user_response 
 
 app = Flask(__name__)
 
 # openai.api_key = os.environ["OPENAI_API_KEY"]
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 print("openai_handler.py running...")
 
@@ -15,11 +16,9 @@ print("openai_handler.py running...")
 def index():
     if request.method == "POST":
         animal = request.form["animal"]
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(animal),
-            temperature=0.6,
-        )
+        response = client.completions.create(model="text-davinci-003",
+        prompt=generate_prompt(animal),
+        temperature=0.6)
         print(response)
         return redirect(url_for("index", result=response.choices[0].text))
 

@@ -5,7 +5,9 @@
 
 # imports
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=API_KEY)
 from flask import Flask, redirect, render_template, request, url_for
 # speech recongition related imports, will move this to a seperate file soon
 import pyaudio
@@ -18,7 +20,6 @@ sys.path.append("..")
 sys.path.append("secrets")
 from api_keys.OPENAI_API_KEY import API_KEY
 app = Flask(__name__)
-openai.api_key = API_KEY
 
 def init_role_content():
     # role_content = """You are a non-diagnosing peer support counselor that 
@@ -63,13 +64,11 @@ def get_user_response():
 # conversation thus far
 def get_LLM_response(messages: list):
     # query the LLM
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=messages)
     
     # parse the LLM response
-    LLM_response = completion.choices[0].message["content"]
+    LLM_response = completion.choices[0].message.content
 
     return LLM_response
 

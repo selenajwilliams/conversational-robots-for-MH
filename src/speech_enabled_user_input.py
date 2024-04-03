@@ -28,7 +28,9 @@
 """
 # imports
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=API_KEY)
 from flask import Flask, redirect, render_template, request, url_for
 # speech recongition related imports, will move this to a seperate file soon
 import pyaudio
@@ -42,7 +44,6 @@ sys.path.append("..")
 sys.path.append("secrets")
 from api_keys.OPENAI_API_KEY import API_KEY
 app = Flask(__name__)
-openai.api_key = API_KEY
 
 # this part below has to do with real time speech recognition & speech to text using the whisper API, 
 # which will enable the get_user_response function above
@@ -72,9 +73,9 @@ def get_user_response():
             audio_file = open("user_speech.wav", "rb")
             
             # send audio file to whisper api to be transcribed
-            raw_transcript = openai.Audio.transcribe("whisper-1", audio_file)
+            raw_transcript = client.audio.transcribe("whisper-1", audio_file)
 
-            transcript = raw_transcript["text"]
+            transcript = raw_transcript.text
 
             if transcript == "" or transcript is None:
                 print(f"error encountered: transcript is empty")

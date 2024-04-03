@@ -1,6 +1,8 @@
 # imports
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=API_KEY)
 from flask import Flask, redirect, render_template, request, url_for
 # speech recongition related imports, will move this to a seperate file soon
 import pyaudio
@@ -14,7 +16,6 @@ sys.path.append("..")
 sys.path.append("secrets")
 from api_keys.OPENAI_API_KEY import API_KEY
 app = Flask(__name__)
-openai.api_key = API_KEY
 
 
 # inspired by: https://medium.com/muthoni-wanyoike/sentiment-analysis-with-openai-api-a-practical-tutorial-afbe49aef1dd
@@ -27,15 +28,13 @@ def extract_emotion(user_input: str):
     api_query.append(role_conent)
     api_query.append(instruction)
 
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=api_query,
-        max_tokens=2
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=api_query,
+    max_tokens=2)
     
     print(completion)
     
-    sentiment = completion.choices[0].message["content"]
+    sentiment = completion.choices[0].message.content
 
     return sentiment
 

@@ -3,7 +3,7 @@ from elevenlabs import generate, stream
 from openai import OpenAI
 import os
 import helpers
-import processor_module
+from processor_module import ProcessorModule
 import TTS
 
 
@@ -21,7 +21,7 @@ full_transcript = [
 ]
 
 
-def start_transcription():
+def start_transcription(pm: ProcessorModule):
     transcriber = aai.RealtimeTranscriber(
         on_data=on_data,
         on_error=on_error,
@@ -50,7 +50,9 @@ def on_data(transcript: aai.RealtimeTranscript):
         return
 
     if isinstance(transcript, aai.RealtimeFinalTranscript):
-        processor_module.get_gpt_response(transcript.text)
+        LLM_response = pm.main(transcript.text)
+        TTS.generate_audio(LLM_response)
+        # processor_module.process_input(transcript.text)
         # get_gpt_response(transcript.text)
     else:
         print(transcript.text, end="\r")
@@ -91,5 +93,8 @@ def on_error(error: aai.RealtimeError):
 
 check_in_prompt = helpers.get_checkin_prompt()
 TTS.generate_audio(check_in_prompt)
+
+pm = ProcessorModule(check_in_prompt)
+
 # generate_audio(check_in_prompt)
-start_transcription()
+start_transcription(pm)

@@ -1,6 +1,8 @@
 from typing import List
 import random
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 
 """ Contains a variety of helper functions"""
 
@@ -25,7 +27,6 @@ def get_checkin_prompt() -> str:
         return prompt_list
 
     prompt_list = load_prompts()
-    print(f"prompt list: \n{prompt_list}")
 
     prompt = random.choice(prompt_list)
     return prompt
@@ -47,20 +48,18 @@ def extract_emotion(user_input: str):
     api_query.append(role_conent)
     api_query.append(instruction)
 
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=api_query,
-        max_tokens=4
-        )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=api_query,
+    max_tokens=4)
     
     print(completion)
     
-    sentiment = completion.choices[0].message["content"]
+    sentiment = completion.choices[0].message.content
 
     return sentiment
 
 
-def append_to_file(out_file: str, role: str, content: str):
+def append_to_file(role: str, content: str):
     """ Appends text to a file
         Used to save conversational responses from the user or LLM to the file
 
@@ -69,6 +68,8 @@ def append_to_file(out_file: str, role: str, content: str):
             role (str): the role, user or LLM
             content (str): the content to save to the file 
     """
+    # if out_file is None:
+    out_file = "conversation.txt"
     with open(out_file, "a") as file:
         formatted_data = f"{role.upper()}: \n{content}\n\n"
         file.write(formatted_data)
