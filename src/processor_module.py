@@ -30,10 +30,11 @@ class ProcessorModule:
         self.setup()
 
     def get_role_content(self):
-        # role_content = """You are a non-diagnosing peer support counselor that 
-        # helps people with their mental health. Keep your responses less 
-        # than 1 sentence."""
-        role_content = "You're a peer support counselor. Keep all reponses <1 sentence."
+        role_content = """You are a non-diagnosing peer support counselor that 
+        helps people with their mental health. Keep your responses less 
+        than 1 sentence. Ask CBT-based follow up questions often to keep the 
+        conversation going."""
+        # role_content = "You're a peer support counselor. Keep all reponses <1 sentence. Ask CBT-based follow up "
         return role_content
 
     def format_msg(self, role: str, content: str):
@@ -105,6 +106,8 @@ class ProcessorModule:
 
 
     def main(self, user_input: str):
+
+        # follow up instruction -- if user reponse is < 3 words, append "ask me a follow up question"
         
         # save to messages array, append to conversation file
         self.messages_full_log.append({"role":"user", "content": user_input})

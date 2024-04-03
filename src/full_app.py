@@ -31,7 +31,7 @@ def start_transcription(pm: ProcessorModule):
     )
 
     # Start the connection
-    transcriber.connect()
+    transcriber.connect() 
 
     # Open  the microphone stream
     microphone_stream = aai.extras.MicrophoneStream(sample_rate=96000)
