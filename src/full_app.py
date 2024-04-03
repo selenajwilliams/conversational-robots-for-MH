@@ -5,6 +5,7 @@ import os
 import helpers
 from processor_module import ProcessorModule
 import TTS
+import sys
 
 
 openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -52,6 +53,12 @@ def on_data(transcript: aai.RealtimeTranscript):
     if isinstance(transcript, aai.RealtimeFinalTranscript):
         LLM_response = pm.main(transcript.text)
         TTS.generate_audio(LLM_response)
+
+        if ("end session" in transcript.text.lower()):
+            stop_transcription(transcriber)
+            print(f"ending session...")
+            sys.exit()
+
         # processor_module.process_input(transcript.text)
         # get_gpt_response(transcript.text)
     else:

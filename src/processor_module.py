@@ -2,7 +2,7 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=API_KEY)
+openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # from flask import Flask, redirect, render_template, request, url_for
 # speech recongition related imports, will move this to a seperate file soon
 import pyaudio
@@ -13,9 +13,10 @@ import os.path
 import sys
 sys.path.append("..")
 sys.path.append("secrets")
-from api_keys.OPENAI_API_KEY import API_KEY
+# from api_keys.OPENAI_API_KEY import API_KEY
 # app = Flask(__name__)
 import helpers
+import TTS
 
 
 
@@ -41,9 +42,10 @@ class ProcessorModule:
     # aggregates what the user has said so far by going through the messages
     # queries API to summarize it
     # returns summarized version
-    def summarize(role: str):
+    def summarize(self, role: str):
+        print(f"making API call to summarize what's been said so far...")
         # step 1: parse messages to extract responses based on the role
-        raw_responses = ' '.join(message['content'] for message in messages_full_log if message['role'] == role)
+        raw_responses = ' '.join(message['content'] for message in self.messages_full_log if message['role'] == role)
 
         # query the api where messages includes instructions to summarize &
         # the raw responses
@@ -55,7 +57,7 @@ class ProcessorModule:
         api_query.append(formatted_raw_responses)
 
         # send to API
-        completion = client.chat.completions.create(model="gpt-3.5-turbo",
+        completion = openai_client.chat.completions.create(model="gpt-3.5-turbo",
         messages=api_query)
         
         # parse the LLM response
@@ -68,7 +70,7 @@ class ProcessorModule:
     def query_LLM(self, messages: list):
         # query the LLM
         # TODO: add frequency_penalty to discourage repetition 
-        completion = client.chat.completions.create(model="gpt-3.5-turbo",
+        completion = openai_client.chat.completions.create(model="gpt-3.5-turbo",
         messages=messages)
         
         # parse the LLM response
@@ -96,6 +98,10 @@ class ProcessorModule:
 
         # append check in prompt to conversation log
         helpers.append_to_file("assistant", self.check_in_prompt)
+    
+    def end_session(self, user_input: str):
+        if "end session" in user_input.lower():
+            return True
 
 
     def main(self, user_input: str):
@@ -118,6 +124,10 @@ class ProcessorModule:
 
         self.count += 1
 
+        # if self.end_session(user_input):
+        #     TTS.generate_audio(LLM_response)
+        #     print("ending session...")
+        #     sys.exit()
 
         # check if it's time to summarize
         # every 5th user input, summarize

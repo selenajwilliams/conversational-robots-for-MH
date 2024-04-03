@@ -101,3 +101,180 @@ How has your sleep been?
 USER: 
 Good.
 
+ASSISTANT: 
+Tell me about how you've been feeling.
+
+USER: 
+Pretty good.
+
+ASSISTANT: 
+Have you been stressed lately?
+
+ASSISTANT: 
+Tell me about how you've been feeling.
+
+USER: 
+Sometimes more so.
+
+ASSISTANT: 
+How has your sleep been?
+
+USER: 
+We're going to.
+
+ASSISTANT: 
+That's great to hear! I'm here if you want to talk more about it.
+
+USER: 
+Pretty good.
+
+ASSISTANT: 
+I'm glad to hear that. Keep up the good work!
+
+USER: 
+Thanks.
+
+ASSISTANT: 
+You're welcome. Take care!
+
+ASSISTANT: 
+How are you?
+
+USER: 
+All right.
+
+ASSISTANT: 
+That's good to hear. What's been going on for you lately?
+
+USER: 
+I've been walking.
+
+ASSISTANT: 
+That sounds like a great way to take care of yourself. How does it make you feel?
+
+USER: 
+It makes me feel happy.
+
+ASSISTANT: 
+I'm glad to hear that walking brings you happiness.
+
+USER: 
+A little bit. Not the voice of like that's good to hear. What's been going on for you. You say that, bon. Oh, my gosh. I think it's.
+
+ASSISTANT: 
+It's okay, take your time to express yourself. What's on your mind?
+
+USER: 
+Okay.
+
+ASSISTANT: 
+Whenever you're ready, feel free to share what's on your mind.
+
+ASSISTANT: 
+Have you been stressed lately?
+
+ASSISTANT: 
+What has been a highlight and a struggle recently?
+
+USER: 
+Definitely a highlight.
+
+ASSISTANT: 
+That's great to hear! What contributed to that positive experience?
+
+USER: 
+Has been seeing friends again after break, and the struggle has been.
+
+ASSISTANT: 
+It's wonderful that you've been connecting with friends again, that's a big step. How are you feeling about the struggle you mentioned?
+
+USER: 
+Seeing friends again.
+
+ASSISTANT: 
+It's positive that you're finding support and connection with your friends. How can they continue to support you during the struggles you're facing?
+
+USER: 
+It's been tough, but I think I'm adjusting.
+
+ASSISTANT: 
+Adjusting to changes can be difficult, but it's great to hear that you're finding ways to cope. How are you taking care of yourself during this time of adjustment?
+
+USER: 
+It.
+
+ASSISTANT: 
+Taking care of yourself is important during challenging times. What's one small thing you can do today to prioritize your well-being?
+
+USER: 
+I've been making sure to get enough sleep and eat healthy.
+
+ASSISTANT: 
+That's fantastic self-care! Keep up the good work and remember to be gentle with yourself during this time of adjustment.
+
+USER: 
+And session.
+
+ASSISTANT: 
+I'm here for you whenever you need to talk. Take care and remember to prioritize your well-being.
+
+ASSISTANT: 
+Have you been stressed lately?
+
+USER: 
+Yes.
+
+ASSISTANT: 
+I'm here to listen if you want to talk about it.
+
+ASSISTANT: 
+Have you been stressed lately?
+
+USER: 
+Yes.
+
+ASSISTANT: 
+I'm here to listen.
+
+USER: 
+Okay.
+
+ASSISTANT: 
+Feel free to share anything that's been on your mind.
+
+ASSISTANT: 
+How are you?
+
+USER: 
+Good.
+
+ASSISTANT: 
+I'm glad to hear that. What's on your mind today?
+
+USER: 
+End session.
+
+ASSISTANT: 
+Okay, take care.
+
+ASSISTANT: 
+Tell me about how you've been feeling.
+
+USER: 
+It.
+
+ASSISTANT: 
+I'm here to listen if you want to share more.
+
+USER: 
+Pretty good.
+
+ASSISTANT: 
+I'm glad to hear that. What has been making you feel good?
+
+USER: 
+End session.
+
+ASSISTANT: 
+Of course, feel free to reach out whenever you need to talk. Take care.
+
