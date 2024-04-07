@@ -69,7 +69,7 @@ def append_to_file(role: str, content: str):
             content (str): the content to save to the file 
     """
     # if out_file is None:
-    out_file = "conversation.txt"
+    out_file = "conversation2.txt"
     with open(out_file, "a") as file:
         formatted_data = f"{role.upper()}: \n{content}\n\n"
         file.write(formatted_data)

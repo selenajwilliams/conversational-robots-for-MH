@@ -278,3 +278,30 @@ End session.
 ASSISTANT: 
 Of course, feel free to reach out whenever you need to talk. Take care.
 
+ASSISTANT: 
+How has your sleep been?
+
+USER: 
+Eight.
+
+ASSISTANT: 
+Have you noticed any patterns or triggers that may be affecting your sleep?
+
+USER: 
+Have you noticed any patterns or triggers that may be affecting your sleep? Yeah, I think screen time. Before bed has been a big one. And then I get so busy during the day that I don't know. It's like, hard to unwind.
+
+ASSISTANT: 
+How do you think you could adjust your routine to reduce screen time before bed and make time to unwind during the day?
+
+USER: 
+How do you think you could adjust your routine to reduce screen time before bed and make time to unwind during the day.
+
+ASSISTANT: 
+What activities or strategies have helped you relax and unwind in the past?
+
+USER: 
+I don't know. I think what activities or strategies have helped you relax and unwind. In the past.
+
+ASSISTANT: 
+What are some activities that you enjoy or used to enjoy that help you feel relaxed or peaceful?
+

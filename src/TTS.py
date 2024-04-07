@@ -2,6 +2,7 @@
 from elevenlabs import generate, stream
 # from openai import OpenAI
 import os
+import time
 
 
 # aai.settings.api_key = os.environ["ASSEMBLYAI_API_KEY"]
@@ -17,3 +18,4 @@ def generate_audio(text):
     )
 
     stream(audio_stream)
+

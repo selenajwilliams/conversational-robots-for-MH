@@ -32,10 +32,21 @@ class ProcessorModule:
     def get_role_content(self):
         role_content = """You are a non-diagnosing peer support counselor that 
         helps people with their mental health. Keep your responses less 
-        than 1 sentence. Ask CBT-based follow up questions often to keep the 
-        conversation going."""
+        than 1-3 sentences. Every few responses, use motivational interviewing to ask 
+        CBT-based follow up questions often to keep the conversation going. If you feel 
+        that the user has is in a good place with a situation, ask an open-ended, 
+        wellbeing-related question about another part of their life that they can 
+        respond to."""
         # role_content = "You're a peer support counselor. Keep all reponses <1 sentence. Ask CBT-based follow up "
         return role_content
+    
+    def alt_role_content(self):
+        role_content = """You are a non-diagnosing peer support counselor that 
+        helps people with their mental health. Keep your responses less 
+        than 1-2 sentences."""
+        # role_content = "You're a peer support counselor. Keep all reponses <1 sentence. Ask CBT-based follow up "
+        return role_content
+
 
     def format_msg(self, role: str, content: str):
         return {"role": role, "content": content}
@@ -108,6 +119,7 @@ class ProcessorModule:
     def main(self, user_input: str):
 
         # follow up instruction -- if user reponse is < 3 words, append "ask me a follow up question"
+
         
         # save to messages array, append to conversation file
         self.messages_full_log.append({"role":"user", "content": user_input})
@@ -125,12 +137,12 @@ class ProcessorModule:
         self.working_messages.append({"role":"assistant", "content": LLM_response})
         helpers.append_to_file("assistant", LLM_response)
 
-        self.count += 1
+        self.count += 1 
 
-        # if self.end_session(user_input):
-        #     TTS.generate_audio(LLM_response)
-        #     print("ending session...")
-        #     sys.exit()
+        if (self.count % 3) == 0:
+            pass # time to ask a quesetion
+
+
 
         # check if it's time to summarize
         # every 5th user input, summarize
@@ -138,24 +150,12 @@ class ProcessorModule:
             user_summary = self.summarize("user")
             LLM_summary = self.summarize("assistant")
             messages_summary = []
-            # formatted_role_content = format_msg(role="system", content=get_role_content())
-            # formatted_user_summary = format_msg(role="user", content=user_summary)
-            # formatted_LLM_summary = format_msg(role="assistant", content=LLM_summary)
 
             messages_summary.append({"role":"system", "content": self.get_role_content()})
             messages_summary.append({"role":"user", "content": user_summary})
             messages_summary.append({"role":"assistant", "content": LLM_summary})
-
-            # messages_summary.append(formatted_role_content)
-            # messages_summary.append(formatted_user_summary)
-            # messages_summary.append(formatted_LLM_summary)
-
             print(f"\n*** Messages Summary ***\nUser Summary: \n{user_summary}\n LLM_summary: \n{LLM_summary}")
-            
-            working_messages = messages_summary # reset working messages to be the summary 
-
-            # print(f"*** USER SUMMARY: *** \n{user_summary}")
-            # print(f"*** LLM SUMMARY: *** \n{LLM_summary}")
+            self.working_messages = messages_summary # reset working messages to be the summary 
 
         # print(f"\*** Working Messages: ***")
         # [print(x) for x in working_messages if x.get("role") != "role_content"]
