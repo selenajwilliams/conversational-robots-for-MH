@@ -21,7 +21,7 @@ def get_checkin_prompt() -> str:
            List[str]: the list of possible check-in prompts
         """
         prompt_list = []
-        with open('prompts.txt', 'r') as file:
+        with open('prompts/prompts.txt', 'r') as file:
             for prompt in file:
                 prompt_list.append(prompt.strip('\n'))
         return prompt_list
@@ -69,7 +69,7 @@ def append_to_file(role: str, content: str):
             content (str): the content to save to the file 
     """
     # if out_file is None:
-    out_file = "conversation2.txt"
+    out_file = "conversation_logs/body_image_test.txt"
     with open(out_file, "a") as file:
         formatted_data = f"{role.upper()}: \n{content}\n\n"
         file.write(formatted_data)

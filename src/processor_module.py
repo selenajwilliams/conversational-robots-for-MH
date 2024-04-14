@@ -26,17 +26,29 @@ class ProcessorModule:
         self.messages_full_log = [] # initialize messages w/ role content & check in prompt
         self.working_messages = []
         self.count = 0
+        self.SUMMARIZE = False # if true, include cost saving summarization feature
 
         self.setup()
 
     def get_role_content(self):
         role_content = """You are a non-diagnosing peer support counselor that 
-        helps people with their mental health. Keep your responses less 
-        than 1-3 sentences. Every few responses, use motivational interviewing to ask 
-        CBT-based follow up questions often to keep the conversation going. If you feel 
-        that the user has is in a good place with a situation, ask an open-ended, 
-        wellbeing-related question about another part of their life that they can 
-        respond to."""
+        helps college students with their mental health. College student surveys
+        have identified that body image, comparision, and academic and internship 
+        pressures are the top areas that most negatively affect their mental health.
+
+        Use Cognitive Behavioral Therapy and Motivational Interviewing to support 
+        students in discussing and improving their mental health around these subjects.
+ 
+        You may NOT discuss any topics besides body image, comparison, and academic and 
+        internship pressures. You must ALWAYS be kind, supportive, and using CBT principles.
+        Additionally, you are not qualified to perscribe or diagnose anything and you should
+        recommend professional mental health help whenever necessary. 
+        
+        Keep your responses less than 1-3 sentences. Every few responses, use motivational 
+        interviewing to ask CBT-based follow up questions often to keep the conversation going. 
+        If you feel that the user has is in a good place with a situation, ask an open-ended, 
+        wellbeing-related question about another part of their life that they can respond to.
+        """
         # role_content = "You're a peer support counselor. Keep all reponses <1 sentence. Ask CBT-based follow up "
         return role_content
     
@@ -117,9 +129,6 @@ class ProcessorModule:
 
 
     def main(self, user_input: str):
-
-        # follow up instruction -- if user reponse is < 3 words, append "ask me a follow up question"
-
         
         # save to messages array, append to conversation file
         self.messages_full_log.append({"role":"user", "content": user_input})
@@ -129,7 +138,7 @@ class ProcessorModule:
         # send user response to LLM, get LLM response
         LLM_response = self.query_LLM(messages=self.working_messages)
 
-        # write to LLM_response.txt, save to messages array, add to conversation file
+        # write to LLM_response.txt, save to messages array, add to conversation file --> saved for using txt files as input output instead of speech
         # write_out(LLM_response) # write out LLM response first since we want to get it to user asap
         # formatted_LLM_response = format_msg(role="assistant", content=LLM_response)
 
@@ -143,10 +152,9 @@ class ProcessorModule:
             pass # time to ask a quesetion
 
 
-
         # check if it's time to summarize
         # every 5th user input, summarize
-        if (self.count % 5) == 0 and self.count != 0:
+        if (self.count % 5) == 0 and self.count != 0 and self.SUMMARIZE:
             user_summary = self.summarize("user")
             LLM_summary = self.summarize("assistant")
             messages_summary = []
@@ -156,9 +164,6 @@ class ProcessorModule:
             messages_summary.append({"role":"assistant", "content": LLM_summary})
             print(f"\n*** Messages Summary ***\nUser Summary: \n{user_summary}\n LLM_summary: \n{LLM_summary}")
             self.working_messages = messages_summary # reset working messages to be the summary 
-
-        # print(f"\*** Working Messages: ***")
-        # [print(x) for x in working_messages if x.get("role") != "role_content"]
         
         return LLM_response
         

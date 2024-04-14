@@ -14,13 +14,6 @@ elevenlabs_api_key = os.environ["ELEVENLABS_API_KEY"]
 
 
 transcriber = None
-# full_transcript = [
-#     {
-#         "role": "system",
-#         "content": "You're a highly skilled AI assistant. Answer in <1 sentence",
-#     },
-# ]
-
 
 def start_transcription(pm: ProcessorModule):
     transcriber = aai.RealtimeTranscriber(
@@ -28,7 +21,7 @@ def start_transcription(pm: ProcessorModule):
         on_error=on_error,
         sample_rate=96000,
         # end_utterance_silence_threshold=1000, # 1000 seems a little fast, let's try 1500
-        end_utterance_silence_threshold=1500,
+        end_utterance_silence_threshold=2000,
 
     )
 
