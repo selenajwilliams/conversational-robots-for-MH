@@ -16,3 +16,7 @@ pyenv.cfg
 
 # secrets
 api_keys/
+
+# conversation logs 
+src/logs
+logs/
