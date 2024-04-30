@@ -1,76 +1,18 @@
-# speechless, summarization-less version
-
-# imports
-import os
+import assemblyai as aai
+from elevenlabs import generate, stream
 from openai import OpenAI
-# imports
 import os
-from openai import OpenAI
-
-client = OpenAI(api_key=API_KEY)
-from flask import Flask, redirect, render_template, request, url_for
-# speech recongition related imports, will move this to a seperate file soon
-import pyaudio
-import speech_recognition as sr
-import wave
-import random
-import os.path
+import helpers
+from processor_module import ProcessorModule
+import TTS
 import sys
-sys.path.append("..")
-sys.path.append("secrets")
-from api_keys.OPENAI_API_KEY import API_KEY
-app = Flask(__name__)
 
-def init_role_content():
-    # role_content = """You are a non-diagnosing peer support counselor that 
-    # helps people with their mental health. Keep your responses less 
-    # than 1 sentence."""
-    role_content = "You're a peer support counselor."
-    return role_content
 
-def formatt_msg(role: str, content: str):
-    return {"role": role, "content": content}
+openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# aai.settings.api_key = os.environ["ASSEMBLYAI_API_KEY"]
+# elevenlabs_api_key = os.environ["ELEVENLABS_API_KEY"]
 
-def ask_check_in_prompt():
-    check_in_prompts = ["How are you?", "Have you been stressed lately?"]
-    check_in_prompt = random.choice(check_in_prompts)
-    return check_in_prompt
 
-def end_session(user_input: str):
-    if "end session" in user_input.lower():
-        return True
-    else: 
-        return False
-
-# we only write out the response when we receive the LLM's response, so we
-# always save it to the same file called LLM_response.txt
-def write_out(LLM_response: str):
-    with open('LLM_response.txt', 'w') as file:
-        file.write(LLM_response)
-
-def save_to_conversation_file(role: str, content: str):
-    with open("conversation.txt", "a") as file:
-        formatted_data = f"{role.upper()}: \n{content}\n\n"
-        file.write(formatted_data)
-
-# reads user input file to get user input
-def get_user_response():
-    with open('user_input.txt', 'r') as file:
-        user_input = file.read()
-    
-    return user_input
-
-# takes in messages array with user response, returns LLM response based on
-# conversation thus far
-def get_LLM_response(messages: list):
-    # query the LLM
-    completion = client.chat.completions.create(model="gpt-3.5-turbo",
-    messages=messages)
-    
-    # parse the LLM response
-    LLM_response = completion.choices[0].message.content
-
-    return LLM_response
 
 
 if __name__ == "__main__":

@@ -1,0 +1,4 @@
+assemblyai
+elevenlabs
+openai
+pyaudio

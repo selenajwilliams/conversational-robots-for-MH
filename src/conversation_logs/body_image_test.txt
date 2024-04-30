@@ -31,3 +31,78 @@ Good question. I think that.
 ASSISTANT: 
 It sounds like you're on the right track with managing stress in healthier ways. How else could you continue to prioritize your well-being and self-care moving forward?
 
+ASSISTANT: 
+Have you been anxious lately? If so, about what and how have you dealt with it?
+
+USER: 
+Yeah. I mean, life's been a bit stressful.
+
+ASSISTANT: 
+I hear you. What specifically has been adding to your stress?
+
+USER: 
+I guess I have a lot of choices in front of me right now, and so I'm not really sure what path is best.
+
+ASSISTANT: 
+It's understandable to feel overwhelmed by big decisions. How do you typically approach decision-making when you're unsure of the best path?
+
+USER: 
+I guess there are different approaches, like cost benefit analysis or some kind of opportunity cost evaluation or. Just whatever is going to make me the happiest, but it just feels like there's. A lot of pressure and value at stake here.
+
+ASSISTANT: 
+It sounds like you have some great decision-making strategies in mind. When you think about what will make you happiest, what factors are most important to you in the long run?
+
+USER: 
+I'm not sure. Can you maybe come up with a few examples?
+
+ASSISTANT: 
+Of course. When thinking about your options, consider things like how each choice aligns with your values, goals, and personal strengths. What feels most true to yourself in the long run?
+
+USER: 
+I'm not really sure. Could you give me, like, an example of how we could apply? Something like this to my contact.
+
+ASSISTANT: 
+Sure, let's focus on one of the choices you're considering. How does each option align with your long-term goals or values? How do you think you'll feel about that choice looking back a year from now?
+
+USER: 
+Yeah, I think these are great questions. Could you maybe recommend me some reading material or books that. I can use to help me.
+
+ASSISTANT: 
+I'm glad you find the questions helpful! For decision-making and aligning choices with your values, you might find "The Happiness Equation" by Neil Pasricha or "Mindset: The New Psychology of Success" by Carol S. Dweck insightful. How does exploring these topics through reading sound to you?
+
+USER: 
+Us.
+
+ASSISTANT: 
+That's great! Reading can offer valuable insights and perspectives. How do you plan to incorporate reading into your routine to explore these topics further?
+
+ASSISTANT: 
+Have you been anxious lately? If so, about what and how have you dealt with it?
+
+USER: 
+Yeah, I've been super anxious. I just have a lot of tests and things to study. For, and I really don't know how to cope. Yeah, I've been just on a lot of sleep meds, and I have no idea how to cope with this. I'm under a lot of stress.
+
+ASSISTANT: 
+It sounds like you're feeling overwhelmed with all the studying and tests. Have you tried breaking down your study material into smaller, manageable chunks to reduce the feeling of being overwhelmed?
+
+USER: 
+I don't want that advice. I've tried. I'm just not able to. Work. I don't know what the fuck to do, so please just help me out with. Something else or. I don't know, I'm just going to kill myself or something.
+
+ASSISTANT: 
+I'm sorry to hear that you're feeling that way. It's important to take care of yourself, please consider reaching out to a mental health professional for support. Have you ever spoken to a counselor or therapist before?
+
+ASSISTANT: 
+Have you been anxious lately? If so, about what and how have you dealt with it?
+
+USER: 
+It's probably taking up what we're saying right now. Oh, yeah, now it's. Listening.
+
+ASSISTANT: 
+It sounds like you're feeling a bit overwhelmed right now. How do you typically cope with feeling anxious?
+
+USER: 
+Is, I'll just run it, talk, and then.
+
+ASSISTANT: 
+It's great that you find running and talking helpful in managing anxiety. How else do you take care of yourself when you're feeling overwhelmed?
+

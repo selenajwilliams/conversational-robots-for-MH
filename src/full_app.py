@@ -22,7 +22,6 @@ def start_transcription(pm: ProcessorModule):
         sample_rate=96000,
         # end_utterance_silence_threshold=1000, # 1000 seems a little fast, let's try 1500
         end_utterance_silence_threshold=2000,
-
     )
 
     # Start the connection
@@ -53,6 +52,10 @@ def on_data(transcript: aai.RealtimeTranscript):
         # if index != -1:
         #     transcript.text = transcript.text[index + len(saved_LLM_response) +1:]
         #     print(f"after filtering, transcript.text is: {transcript.text}")
+
+        ## TODO: crisis monitoring 
+        # check if transcript.text contains crisis_words
+        # if true, generate crisis response & end session
         
         LLM_response = pm.main(transcript.text)
         # transcript.text = ""

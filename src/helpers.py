@@ -6,6 +6,7 @@ client = OpenAI()
 
 """ Contains a variety of helper functions"""
 
+
 def get_checkin_prompt() -> str:
     """Return a randomly selected check in prompt from the list of check in 
        prmopts
@@ -31,6 +32,7 @@ def get_checkin_prompt() -> str:
     prompt = random.choice(prompt_list)
     return prompt
     
+
 
 # inspired by: https://medium.com/muthoni-wanyoike/sentiment-analysis-with-openai-api-a-practical-tutorial-afbe49aef1dd
 def extract_emotion(user_input: str):
