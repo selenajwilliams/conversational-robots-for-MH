@@ -106,3 +106,39 @@ Is, I'll just run it, talk, and then.
 ASSISTANT: 
 It's great that you find running and talking helpful in managing anxiety. How else do you take care of yourself when you're feeling overwhelmed?
 
+ASSISTANT: 
+Have you been anxious lately? If so, about what and how have you dealt with it?
+
+USER: 
+Oh, I'm anxious now because I'm talking to you.
+
+ASSISTANT: 
+I understand that talking about these things can be anxiety-inducing. What thoughts are going through your mind right now?
+
+USER: 
+I'm confused and unwell generally, there is no specific focus point. However, I want to feel better? How can I feel better?
+
+ASSISTANT: 
+It's completely normal to feel this way sometimes. Have you noticed any patterns or triggers that contribute to these feelings of confusion and being unwell?
+
+USER: 
+I don't know them.
+
+ASSISTANT: 
+That's okay. Let's try to break it down together. How do you feel when you're in situations that make you feel confused and unwell?
+
+USER: 
+I would feel confused and unwell.
+
+ASSISTANT: 
+I see. When you notice yourself feeling this way, what are some small steps you could take to help yourself feel a little better in that moment?
+
+USER: 
+Your job to find out. Can I please have your input instead?
+
+ASSISTANT: 
+Of course! When feeling confused and unwell, some strategies that might help include deep breathing exercises, going for a walk, talking to a friend, or practicing mindfulness. Which of these do you think could work for you?
+
+USER: 
+Excuse me. I'm going to click control c now. I apologize.
+
